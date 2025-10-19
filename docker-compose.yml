@@ -1,0 +1,64 @@
+services:
+  # PostgreSQL Database
+  # To run full stack locally: docker compose --profile full up
+  db:
+    profiles: ["backend", "full"]
+    image: postgres:17-alpine
+    container_name: portal-db
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal
+      POSTGRES_DB: portal_db
+    volumes:
+      - /tmp/portal-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portal-network
+
+  # Backend API
+  # To run full stack locally: docker compose --profile full up
+  backend:
+    profiles: ["backend", "full"]
+    build:
+      context: ../portal-backend
+      dockerfile: Dockerfile
+    container_name: portal-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://portal:portal@db:5432/portal_db
+      SECRET_KEY: ${SECRET_KEY:-change-this-secret-key-in-production}
+      ALLOWED_ORIGINS: http://localhost:3000,http://localhost
+    volumes:
+      - /tmp/portal-data/uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - portal-network
+
+  # Frontend Application
+  frontend:
+    profiles: ["frontend", "full"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portal-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    restart: unless-stopped
+    networks:
+      - portal-network
+
+networks:
+  portal-network:
+    driver: bridge

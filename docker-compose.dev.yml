@@ -1,0 +1,73 @@
+services:
+  # PostgreSQL Database
+  # To run full stack locally: docker compose --profile full up
+  db:
+    profiles: ["backend", "full"]
+    image: postgres:17-alpine
+    container_name: portal-db-dev
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal
+      POSTGRES_DB: portal_db
+    volumes:
+      - /tmp/portal-data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - portal-network
+
+  # Backend API - Development mode with hot-reload
+  # To run full stack locally: docker compose --profile full up
+  backend:
+    profiles: ["backend", "full"]
+    build:
+      context: ../portal-backend
+      dockerfile: Dockerfile.dev
+    container_name: portal-backend-dev
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://portal:portal@db:5432/portal_db
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost
+      ENVIRONMENT: development
+    volumes:
+      - ../portal-backend/app:/app/app:ro
+      - /tmp/portal-data/uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - portal-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/app
+
+  # Frontend Application - Development mode with Vite hot-reload
+  frontend:
+    profiles: ["frontend", "full"]
+    image: node:18-alpine
+    container_name: portal-frontend-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+      - NODE_ENV=development
+    volumes:
+      # Mount source code for hot-reload
+      - .:/app:cached
+      # Use host path for node_modules to avoid conflicts
+      - /tmp/portal-data/node_modules:/app/node_modules
+    networks:
+      - portal-network
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    stdin_open: true
+    tty: true
+
+networks:
+  portal-network:
+    driver: bridge

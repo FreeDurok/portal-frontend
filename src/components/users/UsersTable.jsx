@@ -15,13 +15,15 @@ import {
 import { Edit, AdminPanelSettings, Person, Delete } from '@mui/icons-material'
 import { format } from 'date-fns'
 import { it } from 'date-fns/locale'
+import { useTranslation } from 'react-i18next'
 
 function UsersTable({ users, onEdit, onDelete }) {
+  const { t } = useTranslation()
   if (!users || users.length === 0) {
     return (
       <Paper sx={{ p: 4, textAlign: 'center' }}>
         <Typography color="text.secondary">
-          Nessun utente trovato
+          {t('common.noData')}
         </Typography>
       </Paper>
     )
@@ -32,12 +34,12 @@ function UsersTable({ users, onEdit, onDelete }) {
       <Table>
         <TableHead>
           <TableRow sx={{ bgcolor: 'action.hover' }}>
-            <TableCell sx={{ fontWeight: 600 }}>Username</TableCell>
-            <TableCell sx={{ fontWeight: 600 }}>Email</TableCell>
-            <TableCell sx={{ fontWeight: 600 }}>Ruolo</TableCell>
-            <TableCell sx={{ fontWeight: 600 }}>Stato</TableCell>
-            <TableCell sx={{ fontWeight: 600 }}>Data Creazione</TableCell>
-            <TableCell align="center" sx={{ fontWeight: 600 }}>Azioni</TableCell>
+            <TableCell sx={{ fontWeight: 600 }}>{t('users.table.username')}</TableCell>
+            <TableCell sx={{ fontWeight: 600 }}>{t('users.table.email')}</TableCell>
+            <TableCell sx={{ fontWeight: 600 }}>{t('users.table.role')}</TableCell>
+            <TableCell sx={{ fontWeight: 600 }}>{t('users.table.status')}</TableCell>
+            <TableCell sx={{ fontWeight: 600 }}>{t('common.createdAt')}</TableCell>
+            <TableCell align="center" sx={{ fontWeight: 600 }}>{t('users.table.actions')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -64,14 +66,14 @@ function UsersTable({ users, onEdit, onDelete }) {
               <TableCell>{user.email}</TableCell>
               <TableCell>
                 <Chip 
-                  label={user.is_admin ? 'Admin' : 'Utente'}
+                  label={user.is_admin ? t('users.roles.admin') : t('users.roles.user')}
                   color={user.is_admin ? 'primary' : 'default'}
                   size="small"
                 />
               </TableCell>
               <TableCell>
                 <Chip 
-                  label={user.is_active ? 'Attivo' : 'Disattivato'}
+                  label={user.is_active ? t('users.status.active') : t('users.status.inactive')}
                   color={user.is_active ? 'success' : 'default'}
                   size="small"
                   variant={user.is_active ? 'filled' : 'outlined'}
@@ -82,7 +84,7 @@ function UsersTable({ users, onEdit, onDelete }) {
               </TableCell>
               <TableCell align="center">
                 <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
-                  <Tooltip title="Modifica utente">
+                  <Tooltip title={t('common.edit')}>
                     <IconButton 
                       size="small" 
                       color="primary"
@@ -92,7 +94,7 @@ function UsersTable({ users, onEdit, onDelete }) {
                     </IconButton>
                   </Tooltip>
                   {!user.is_admin && (
-                    <Tooltip title="Elimina utente">
+                    <Tooltip title={t('common.delete')}>
                       <IconButton 
                         size="small" 
                         color="error"

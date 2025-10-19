@@ -12,12 +12,15 @@ import {
   CheckCircle as HealthyIcon,
   Error as ErrorIcon
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import ApplicationHealthItem from './ApplicationHealthItem'
 
 /**
  * Applications Health Card - Shows status of all monitored applications
  */
 function ApplicationsHealthCard({ applications }) {
+  const { t } = useTranslation()
+  
   if (!applications || applications.length === 0) {
     return (
       <Card elevation={2}>
@@ -35,11 +38,11 @@ function ApplicationsHealthCard({ applications }) {
               <AppsIcon sx={{ fontSize: 24 }} />
             </Box>
             <Typography variant="h6" fontWeight={600}>
-              Applicazioni
+              {t('monitoring.applicationsHealth.applications')}
             </Typography>
           </Box>
           <Typography variant="body2" color="text.secondary">
-            Nessuna applicazione da monitorare
+            {t('monitoring.applicationsHealth.noApplications')}
           </Typography>
         </CardContent>
       </Card>
@@ -76,10 +79,10 @@ function ApplicationsHealthCard({ applications }) {
             </Box>
             <Box>
               <Typography variant="h6" fontWeight={600}>
-                Applicazioni
+                {t('monitoring.applicationsHealth.applications')}
               </Typography>
               <Typography variant="caption" color="text.secondary">
-                {totalCount} applicazioni monitorate
+                {totalCount} {t('monitoring.applicationsHealth.applicationsMonitored')}
               </Typography>
             </Box>
           </Box>
@@ -89,14 +92,14 @@ function ApplicationsHealthCard({ applications }) {
         <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
           <Chip
             icon={<HealthyIcon sx={{ fontSize: 16 }} />}
-            label={`${healthyCount} Online`}
+            label={`${healthyCount} ${t('monitoring.applicationsHealth.statusLabels.online')}`}
             color="success"
             size="small"
             variant="outlined"
           />
           {degradedCount > 0 && (
             <Chip
-              label={`${degradedCount} Lenti`}
+              label={`${degradedCount} ${t('monitoring.applicationsHealth.statusLabels.slow')}`}
               color="warning"
               size="small"
               variant="outlined"
@@ -104,7 +107,7 @@ function ApplicationsHealthCard({ applications }) {
           )}
           {downCount > 0 && (
             <Chip
-              label={`${downCount} Offline`}
+              label={`${downCount} ${t('monitoring.applicationsHealth.statusLabels.offline')}`}
               color="error"
               size="small"
               variant="outlined"

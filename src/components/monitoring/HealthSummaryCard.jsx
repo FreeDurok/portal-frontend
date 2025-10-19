@@ -15,31 +15,32 @@ import {
   Speed as PerformanceIcon,
   Circle as PollingIcon
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Get overall status configuration
  */
-const getStatusConfig = (status) => {
+const getStatusConfig = (status, t) => {
   const configs = {
     healthy: {
       color: 'success',
       icon: <HealthyIcon sx={{ fontSize: 48 }} />,
-      label: 'Tutti i Servizi Operativi',
-      description: 'Il sistema funziona correttamente',
+      label: t('monitoring.healthSummary.allServicesOperational'),
+      description: t('monitoring.healthSummary.systemFunctioning'),
       bgcolor: 'success.lighter'
     },
     degraded: {
       color: 'warning',
       icon: <DegradedIcon sx={{ fontSize: 48 }} />,
-      label: 'Servizi Rallentati',
-      description: 'Alcuni servizi rispondono lentamente',
+      label: t('monitoring.healthSummary.servicesSlowed'),
+      description: t('monitoring.healthSummary.someServicesResponding'),
       bgcolor: 'warning.lighter'
     },
     down: {
       color: 'error',
       icon: <ErrorIcon sx={{ fontSize: 48 }} />,
-      label: 'Servizi Non Disponibili',
-      description: 'Uno o più servizi non sono raggiungibili',
+      label: t('monitoring.healthSummary.servicesUnavailable'),
+      description: t('monitoring.healthSummary.servicesNotReachable'),
       bgcolor: 'error.lighter'
     }
   }
@@ -49,7 +50,7 @@ const getStatusConfig = (status) => {
 /**
  * Format uptime to human readable string
  */
-const formatUptime = (seconds) => {
+const formatUptime = (seconds, t) => {
   if (!seconds) return 'N/A'
   
   const days = Math.floor(seconds / 86400)
@@ -57,10 +58,10 @@ const formatUptime = (seconds) => {
   const minutes = Math.floor((seconds % 3600) / 60)
   const secs = Math.floor(seconds % 60)
   
-  if (days > 0) return `${days} giorni, ${hours} ore`
-  if (hours > 0) return `${hours} ore, ${minutes} minuti`
-  if (minutes > 0) return `${minutes} minuti, ${secs} secondi`
-  return `${secs} secondi`
+  if (days > 0) return `${days} ${t('monitoring.healthSummary.days')}, ${hours} ${t('monitoring.healthSummary.hours')}`
+  if (hours > 0) return `${hours} ${t('monitoring.healthSummary.hours')}, ${minutes} ${t('monitoring.healthSummary.minutes')}`
+  if (minutes > 0) return `${minutes} ${t('monitoring.healthSummary.minutes')}, ${secs} ${t('monitoring.healthSummary.seconds')}`
+  return `${secs} ${t('monitoring.healthSummary.seconds')}`
 }
 
 /**
@@ -78,7 +79,8 @@ const calculateAvgResponseTime = (services) => {
  * Overall Health Summary Card
  */
 function HealthSummaryCard({ healthData, isPolling }) {
-  const statusConfig = getStatusConfig(healthData.overall_status)
+  const { t, i18n } = useTranslation()
+  const statusConfig = getStatusConfig(healthData.overall_status, t)
   const services = healthData?.services || {}
   const servicesArray = Object.values(services)
   const avgResponseTime = calculateAvgResponseTime(services)
@@ -117,7 +119,7 @@ function HealthSummaryCard({ healthData, isPolling }) {
             }} 
           />
           <Typography variant="caption" color="text.secondary" fontWeight={500}>
-            Aggiornamento in corso...
+            {t('monitoring.healthSummary.updatingInProgress')}
           </Typography>
         </Box>
       )}
@@ -163,14 +165,14 @@ function HealthSummaryCard({ healthData, isPolling }) {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <UptimeIcon sx={{ color: 'primary.main' }} />
                     <Typography variant="body2" color="text.secondary">
-                      Uptime
+                      {t('monitoring.healthSummary.uptime')}
                     </Typography>
                   </Box>
                   <Typography variant="h5" fontWeight={700}>
-                    {formatUptime(healthData.uptime)}
+                    {formatUptime(healthData.uptime, t)}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Sistema attivo da
+                    {t('monitoring.healthSummary.systemActiveSince')}
                   </Typography>
                 </Stack>
               </CardContent>
@@ -185,14 +187,14 @@ function HealthSummaryCard({ healthData, isPolling }) {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <PerformanceIcon sx={{ color: 'info.main' }} />
                     <Typography variant="body2" color="text.secondary">
-                      Tempo Medio
+                      {t('monitoring.healthSummary.averageTime')}
                     </Typography>
                   </Box>
                   <Typography variant="h5" fontWeight={700}>
                     {avgResponseTime.toFixed(2)} ms
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Risposta dei servizi
+                    {t('monitoring.healthSummary.servicesResponse')}
                   </Typography>
                 </Stack>
               </CardContent>
@@ -207,14 +209,14 @@ function HealthSummaryCard({ healthData, isPolling }) {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <HealthyIcon sx={{ color: 'success.main' }} />
                     <Typography variant="body2" color="text.secondary">
-                      Servizi
+                      {t('monitoring.healthSummary.services')}
                     </Typography>
                   </Box>
                   <Typography variant="h5" fontWeight={700}>
                     {servicesArray.filter(s => s.status === 'healthy').length}/{servicesArray.length}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Operativi
+                    {t('monitoring.healthSummary.operational')}
                   </Typography>
                 </Stack>
               </CardContent>
@@ -225,7 +227,7 @@ function HealthSummaryCard({ healthData, isPolling }) {
         {/* Last Update Time */}
         <Box sx={{ mt: 3, textAlign: 'center' }}>
           <Typography variant="caption" color="text.secondary">
-            Ultimo aggiornamento: {new Date(healthData.timestamp).toLocaleString('it-IT', {
+            {t('monitoring.healthSummary.lastUpdate')}: {new Date(healthData.timestamp).toLocaleString(i18n.language === 'en' ? 'en-US' : 'it-IT', {
               day: '2-digit',
               month: '2-digit',
               year: 'numeric',

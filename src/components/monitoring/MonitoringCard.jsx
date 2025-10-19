@@ -17,28 +17,30 @@ import {
   Circle as PollingIcon
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import MonitoringCardSkeleton from './MonitoringCardSkeleton'
 
 /**
  * Get status configuration (color, icon, label)
  */
-const getStatusConfig = (status) => {
+const getStatusConfig = (status, t) => {
   const configs = {
     healthy: {
       color: 'success',
       icon: <HealthyIcon />,
-      label: 'Operativo',
+      label: t('monitoring.status.healthy'),
       bgcolor: 'success.lighter'
     },
     degraded: {
       color: 'warning',
       icon: <DegradedIcon />,
-      label: 'Rallentato',
+      label: t('monitoring.status.degraded'),
       bgcolor: 'warning.lighter'
     },
     down: {
       color: 'error',
       icon: <ErrorIcon />,
-      label: 'Non disponibile',
+      label: t('monitoring.status.down'),
       bgcolor: 'error.lighter'
     }
   }
@@ -63,35 +65,37 @@ const formatUptime = (seconds) => {
 /**
  * Monitoring Card Component for Dashboard
  */
-function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
+function MonitoringCard({ healthData, loading, isPolling, onRefresh, stats }) {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   
   if (loading && !healthData) {
-    return (
-      <Card 
-        sx={{ 
-          cursor: 'pointer'
-        }}
-        onClick={() => navigate('/admin/monitoring')}
-      >
-        <CardContent>
-          <LinearProgress />
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Caricamento...
-          </Typography>
-        </CardContent>
-      </Card>
-    )
+    return <MonitoringCardSkeleton />
   }
 
   const statusConfig = healthData 
-    ? getStatusConfig(healthData.overall_status)
-    : getStatusConfig('down')
+    ? getStatusConfig(healthData.overall_status, t)
+    : getStatusConfig('down', t)
 
   const services = healthData?.services || {}
   const servicesArray = Object.values(services)
   const healthyCount = servicesArray.filter(s => s.status === 'healthy').length
+  const degradedCount = servicesArray.filter(s => s.status === 'degraded').length
+  const downCount = servicesArray.filter(s => s.status === 'down').length
   const totalCount = servicesArray.length
+  
+  // Get degraded and down services for preview
+  const degradedServices = servicesArray.filter(s => s.status === 'degraded')
+  const downServices = servicesArray.filter(s => s.status === 'down')
+  
+  // Also check applications status
+  const applications = healthData?.applications || []
+  const degradedApps = applications.filter(app => app.status === 'degraded')
+  const downApps = applications.filter(app => app.status === 'down' || app.status === 'unreachable')
+  
+  // Combine services and applications issues
+  const allDegraded = [...degradedServices, ...degradedApps]
+  const allDown = [...downServices, ...downApps]
 
   return (
     <Card 
@@ -122,7 +126,7 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
               }} 
             />
             <Typography variant="caption" color="text.secondary">
-              Aggiornamento...
+              {t('monitoring.card.updating')}
             </Typography>
           </Box>
         )}
@@ -143,7 +147,7 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
             </Box>
             <Box>
               <Typography variant="h6" fontWeight={600}>
-                System Health
+                {t('monitoring.card.systemHealth')}
               </Typography>
               <Chip 
                 label={statusConfig.label}
@@ -154,7 +158,7 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
             </Box>
           </Box>
           
-          <Tooltip title="Aggiorna">
+          <Tooltip title={t('monitoring.refresh')}>
             <IconButton
               size="small"
               onClick={(e) => {
@@ -176,7 +180,7 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
           <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
               <Typography variant="body2" color="text.secondary">
-                Servizi Operativi
+                {t('monitoring.card.servicesStatus')}
               </Typography>
               <Typography variant="body2" fontWeight={600}>
                 {healthyCount}/{totalCount}
@@ -190,25 +194,166 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
             />
           </Box>
 
-          {/* Applications Summary */}
-          {healthData?.applications && healthData.applications.length > 0 && (
-            <Box sx={{ pt: 1 }}>
+          {/* Applications Health Summary */}
+          {applications.length > 0 && (
+            <Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
                 <Typography variant="body2" color="text.secondary">
-                  Applicazioni
+                  {t('monitoring.card.appsMonitored')}
                 </Typography>
                 <Typography variant="body2" fontWeight={600}>
-                  {healthData.applications.filter(app => app.status === 'healthy').length}/{healthData.applications.length} online
+                  {applications.filter(app => app.status === 'healthy').length}/{applications.length}
                 </Typography>
               </Box>
+              <LinearProgress 
+                variant="determinate" 
+                value={applications.length > 0 ? (applications.filter(app => app.status === 'healthy').length / applications.length) * 100 : 0}
+                color={applications.filter(app => app.status === 'healthy').length === applications.length ? 'success' : 'warning'}
+                sx={{ height: 6, borderRadius: 3 }}
+              />
             </Box>
+          )}
+
+          {/* Issues Preview - Clean Modern Style */}
+          {(allDegraded.length > 0 || allDown.length > 0) && (
+            <Stack spacing={1} sx={{ mt: 1 }}>
+              {allDegraded.map((item, idx) => (
+                <Box 
+                  key={`degraded-${idx}`}
+                  sx={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    px: 2,
+                    py: 1.5,
+                    borderRadius: 2,
+                    bgcolor: 'background.paper',
+                    border: '2px solid',
+                    borderColor: 'warning.main',
+                    borderLeft: '4px solid',
+                    borderLeftColor: 'warning.main',
+                    transition: 'all 0.2s',
+                    '&:hover': {
+                      boxShadow: 2,
+                      transform: 'translateX(4px)'
+                    }
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
+                      bgcolor: 'warning.lighter',
+                      flexShrink: 0
+                    }}
+                  >
+                    <DegradedIcon sx={{ fontSize: 18, color: 'warning.main' }} />
+                  </Box>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={600} sx={{ mb: 0.25 }}>
+                      {item.name}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      {item.url}
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
+                      {item.status_code && (
+                        <Chip 
+                          label={`HTTP ${item.status_code}`}
+                          size="small"
+                          color="warning"
+                          sx={{ height: 20, fontSize: '0.7rem' }}
+                        />
+                      )}
+                      {item.response_time && (
+                        <Chip 
+                          label={`${Math.round(item.response_time)}ms`}
+                          size="small"
+                          variant="outlined"
+                          sx={{ height: 20, fontSize: '0.7rem' }}
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+              {allDown.map((item, idx) => (
+                <Box 
+                  key={`down-${idx}`}
+                  sx={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.5,
+                    px: 2,
+                    py: 1.5,
+                    borderRadius: 2,
+                    bgcolor: 'background.paper',
+                    border: '2px solid',
+                    borderColor: 'error.main',
+                    borderLeft: '4px solid',
+                    borderLeftColor: 'error.main',
+                    transition: 'all 0.2s',
+                    '&:hover': {
+                      boxShadow: 2,
+                      transform: 'translateX(4px)'
+                    }
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
+                      bgcolor: 'error.lighter',
+                      flexShrink: 0
+                    }}
+                  >
+                    <ErrorIcon sx={{ fontSize: 18, color: 'error.main' }} />
+                  </Box>
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography variant="body2" fontWeight={600} sx={{ mb: 0.25 }}>
+                      {item.name}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      {item.url}
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1, mt: 0.5, flexWrap: 'wrap' }}>
+                      {item.status_code && (
+                        <Chip 
+                          label={`HTTP ${item.status_code}`}
+                          size="small"
+                          color="error"
+                          sx={{ height: 20, fontSize: '0.7rem' }}
+                        />
+                      )}
+                      {item.message && (
+                        <Chip 
+                          label={item.message}
+                          size="small"
+                          variant="outlined"
+                          color="error"
+                          sx={{ height: 20, fontSize: '0.7rem' }}
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+            </Stack>
           )}
 
           {/* Key Metrics */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', pt: 1 }}>
             <Box>
               <Typography variant="caption" color="text.secondary" display="block">
-                Uptime
+                {t('monitoring.card.uptime')}
               </Typography>
               <Typography variant="body1" fontWeight={600}>
                 {formatUptime(healthData?.uptime)}
@@ -216,7 +361,7 @@ function MonitoringCard({ healthData, loading, isPolling, onRefresh }) {
             </Box>
             <Box sx={{ textAlign: 'right' }}>
               <Typography variant="caption" color="text.secondary" display="block">
-                Ultimo Check
+                {t('monitoring.card.lastCheck')}
               </Typography>
               <Typography variant="body1" fontWeight={600}>
                 {healthData?.timestamp 

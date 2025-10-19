@@ -23,6 +23,7 @@ export function useApplications() {
   const [iconTab, setIconTab] = useState(0)
   const [uploading, setUploading] = useState(false)
   const [previewIcon, setPreviewIcon] = useState(null)
+  const [deleteDialog, setDeleteDialog] = useState({ open: false, app: null })
 
   useEffect(() => {
     loadApplications()
@@ -89,16 +90,24 @@ export function useApplications() {
     }
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Sei sicuro di voler eliminare questa applicazione?')) {
-      try {
-        await applicationsAPI.delete(id)
-        showTemporaryMessage(setSuccess, 'Applicazione eliminata con successo')
-        loadApplications()
-      } catch (err) {
-        setError('Errore durante l\'eliminazione')
-      }
+  const handleDelete = (app) => {
+    setDeleteDialog({ open: true, app })
+  }
+
+  const handleConfirmDelete = async () => {
+    try {
+      await applicationsAPI.delete(deleteDialog.app.id)
+      showTemporaryMessage(setSuccess, 'Applicazione eliminata con successo')
+      setDeleteDialog({ open: false, app: null })
+      loadApplications()
+    } catch (err) {
+      setError('Errore durante l\'eliminazione')
+      setDeleteDialog({ open: false, app: null })
     }
+  }
+
+  const handleCancelDelete = () => {
+    setDeleteDialog({ open: false, app: null })
   }
 
   const handleChange = (e) => {
@@ -171,12 +180,15 @@ export function useApplications() {
     iconTab,
     uploading,
     previewIcon,
+    deleteDialog,
     setError,
     setSuccess,
     handleOpenDialog,
     handleCloseDialog,
     handleSubmit,
     handleDelete,
+    handleConfirmDelete,
+    handleCancelDelete,
     handleChange,
     handleFileUpload,
     handleTabChange,

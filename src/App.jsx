@@ -7,6 +7,7 @@ import AdminDashboard from './pages/admin/Dashboard'
 import AdminApplications from './pages/admin/Applications'
 import AdminUsers from './pages/admin/Users'
 import AdminMonitoring from './pages/admin/Monitoring'
+import AdminLogs from './pages/admin/Logs'
 import AdminLayout from './components/admin/AdminLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="applications" element={<AdminApplications />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="monitoring" element={<AdminMonitoring />} />
+            <Route path="logs" element={<AdminLogs />} />
           </Route>
         </Routes>
       </Router>

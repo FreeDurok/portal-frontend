@@ -1,0 +1,276 @@
+{
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "applications": "Applications",
+    "users": "Users",
+    "monitoring": "Monitoring",
+    "logs": "Logs",
+    "logout": "Logout",
+    "adminPortal": "Application Portal - Admin",
+    "publicPortal": "Application Portal",
+    "adminLogin": "Admin Login",
+    "language": "Language",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "System and applications overview",
+    "stats": {
+      "activeApps": "Active Applications",
+      "totalUsers": "Total Users",
+      "alerts": "Active Alerts"
+    },
+    "systemHealth": "System Health",
+    "quickActions": {
+      "title": "Quick Actions",
+      "newApp": "New Application",
+      "newUser": "New User",
+      "viewLogs": "View Logs",
+      "viewMonitoring": "Monitoring"
+    },
+    "systemNotes": {
+      "title": "System Notes",
+      "content": "All services are operational. No action required."
+    }
+  },
+  "applications": {
+    "title": "Application Management",
+    "subtitle": "Manage portal applications",
+    "newApp": "New Application",
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "url": "URL",
+      "category": "Category",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "dialog": {
+      "create": "Create New Application",
+      "edit": "Edit Application",
+      "name": "Application Name",
+      "nameLabel": "Name",
+      "description": "Description",
+      "url": "URL",
+      "category": "Category",
+      "categoryPlaceholder": "e.g. Productivity, Communication",
+      "order": "Order",
+      "orderHelp": "Determines display order (lower numbers appear first)",
+      "isActive": "Application Active",
+      "icon": "Application Icon",
+      "iconUrlTab": "Remote URL",
+      "iconUploadTab": "Upload File",
+      "iconUrl": "Icon URL",
+      "iconUrlPlaceholder": "https://example.com/icon.png",
+      "selectIcon": "Select Icon",
+      "uploading": "Uploading...",
+      "supportedFormats": "Supported formats: PNG, JPG, SVG, WEBP, GIF (max 5MB)",
+      "cancel": "Cancel",
+      "create_btn": "Create",
+      "save": "Save"
+    },
+    "delete": {
+      "title": "Confirm Deletion",
+      "warning": "This action is permanent and cannot be undone.",
+      "message": "Are you sure you want to delete this application?",
+      "appName": "Application name:",
+      "appDescription": "Description:",
+      "appUrl": "URL:",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    }
+  },
+  "users": {
+    "title": "User Management",
+    "subtitle": "Manage system users",
+    "newUser": "New User",
+    "table": {
+      "username": "Username",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "roles": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "dialog": {
+      "create": "Create New User",
+      "edit": "Edit User",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "oldPassword": "Old Password",
+      "oldPasswordHelp": "Enter current password to confirm change",
+      "newPassword": "New Password (leave blank to keep unchanged)",
+      "newPasswordHelp": "Fill only if you want to change the password",
+      "confirmPassword": "Confirm Password",
+      "passwordMismatch": "Passwords do not match",
+      "oldPasswordRequired": "Enter old password to change it",
+      "isActive": "User Active",
+      "adminWarning": "This is an administrator account. Modification of admin privileges is not available.",
+      "role": "Role",
+      "cancel": "Cancel",
+      "create_btn": "Create User",
+      "save": "Save Changes"
+    },
+    "delete": {
+      "title": "Confirm Deletion",
+      "message": "Are you sure you want to delete the user:",
+      "warning": "This action is irreversible and will permanently delete the user from the system.",
+      "warningTitle": "Warning:",
+      "cancel": "Cancel",
+      "confirm": "Delete User"
+    }
+  },
+  "monitoring": {
+    "title": "Monitoring",
+    "subtitle": "Service and application status monitoring",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing...",
+    "card": {
+      "systemHealth": "System Health",
+      "servicesStatus": "Operational Services",
+      "appsMonitored": "Monitored Applications",
+      "uptime": "Uptime",
+      "lastCheck": "Last Check",
+      "updating": "Updating..."
+    },
+    "status": {
+      "healthy": "Operational",
+      "degraded": "Degraded",
+      "down": "Down",
+      "unreachable": "Unreachable"
+    },
+    "summary": {
+      "title": "Status Summary",
+      "services": "Services",
+      "applications": "Applications"
+    },
+    "appsHealth": {
+      "title": "Application Status",
+      "noApps": "No applications configured"
+    },
+    "serviceStatus": {
+      "title": "Service Status",
+      "name": "Service",
+      "status": "Status",
+      "uptime": "Uptime",
+      "responseTime": "Response Time",
+      "lastCheck": "Last Check",
+      "details": "Details",
+      "responseQuality": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "acceptable": "Acceptable",
+        "slow": "Slow"
+      }
+    },
+    "healthSummary": {
+      "allServicesOperational": "All Services Operational",
+      "systemFunctioning": "System is running smoothly",
+      "servicesSlowed": "Services Degraded",
+      "someServicesResponding": "Some services are responding slowly",
+      "servicesUnavailable": "Services Unavailable",
+      "servicesNotReachable": "One or more services are unreachable",
+      "updatingInProgress": "Updating...",
+      "uptime": "Uptime",
+      "systemActiveSince": "System active since",
+      "averageTime": "Average Time",
+      "servicesResponse": "Service response",
+      "services": "Services",
+      "operational": "Operational",
+      "lastUpdate": "Last update",
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds"
+    },
+    "applicationsHealth": {
+      "applications": "Applications",
+      "applicationsMonitored": "applications monitored",
+      "noApplications": "No applications to monitor",
+      "statusLabels": {
+        "online": "Online",
+        "slow": "Slow",
+        "offline": "Offline",
+        "unreachable": "Unreachable",
+        "unknown": "Unknown"
+      }
+    },
+    "monitoringPage": {
+      "note": "Note",
+      "autoUpdateNote": "The system performs automatic checks every 10 seconds. Data is updated in the background without needing to reload the page.",
+      "applicationStatus": "Application Status",
+      "serviceDetails": "Service Details"
+    }
+  },
+  "logs": {
+    "title": "Application Logs",
+    "subtitle": "Monitor logs in real-time",
+    "loading": "Loading logs...",
+    "error": "Error loading logs",
+    "errorClearing": "Error clearing logs",
+    "noLogs": "No logs available",
+    "noResults": "No logs match the search",
+    "refresh": "Refresh",
+    "streamingActive": "Streaming Active",
+    "streamingInactive": "Streaming Inactive",
+    "lines": "lines",
+    "searchPlaceholder": "Search in logs...",
+    "autoScroll": "Auto-scroll",
+    "startStreaming": "Start Streaming",
+    "stopStreaming": "Stop Streaming",
+    "reloadLogs": "Reload logs",
+    "downloadLogs": "Download logs",
+    "clearLogs": "Clear logs",
+    "confirmClear": "Are you sure you want to clear all logs?",
+    "successCleared": "Logs cleared successfully"
+  },
+  "publicPortal": {
+    "title": "Application Portal",
+    "subtitle": "Access your applications simply and quickly",
+    "loading": "Loading...",
+    "errorLoading": "Error loading applications",
+    "noApplications": "No applications available at the moment"
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Enter your credentials to access",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loggingIn": "Logging in...",
+    "error": "Invalid credentials"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "actions": "Actions",
+    "status": "Status",
+    "name": "Name",
+    "description": "Description",
+    "url": "URL",
+    "noData": "No data available",
+    "createdAt": "Created At",
+    "order": "Order"
+  }
+}

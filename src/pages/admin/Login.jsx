@@ -12,11 +12,13 @@ import {
   IconButton
 } from '@mui/material'
 import { Login as LoginIcon, Visibility, VisibilityOff } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import useAuthStore from '../../store/authStore'
 import { authAPI } from '../../api/auth'
 
 function AdminLogin() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { login, isAuthenticated, user, setTempToken } = useAuthStore()
   const [formData, setFormData] = useState({
     username: '',
@@ -59,7 +61,7 @@ function AdminLogin() {
         if (!userData.is_admin) {
           // Not admin, remove token and show error
           useAuthStore.getState().logout()
-          setError('Credenziali non valide o accesso non autorizzato')
+          setError(t('login.error') || 'Credenziali non valide o accesso non autorizzato')
           setLoading(false)
           return
         }
@@ -75,7 +77,7 @@ function AdminLogin() {
     } catch (err) {
       // Generic error message to prevent username enumeration
       // Don't reveal if username exists or if password is wrong
-      setError('Credenziali non valide. Verifica username e password.')
+      setError(t('login.error') || 'Credenziali non valide. Verifica username e password.')
       setLoading(false)
     }
   }
@@ -92,10 +94,10 @@ function AdminLogin() {
           <Box sx={{ textAlign: 'center', mb: 3 }}>
             <LoginIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
             <Typography variant="h4" component="h1" gutterBottom>
-              Admin Login
+              {t('login.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Accedi all'area amministrazione
+              {t('login.subtitle')}
             </Typography>
           </Box>
 
@@ -108,7 +110,7 @@ function AdminLogin() {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Username"
+              label={t('login.username')}
               name="username"
               value={formData.username}
               onChange={handleChange}
@@ -118,7 +120,7 @@ function AdminLogin() {
             />
             <TextField
               fullWidth
-              label="Password"
+              label={t('login.password')}
               name="password"
               type={showPassword ? 'text' : 'password'}
               value={formData.password}
@@ -147,7 +149,7 @@ function AdminLogin() {
               disabled={loading}
               sx={{ mt: 3 }}
             >
-              {loading ? 'Accesso in corso...' : 'Accedi'}
+              {loading ? t('login.loggingIn') : t('login.login')}
             </Button>
           </form>
 
@@ -156,7 +158,7 @@ function AdminLogin() {
               variant="text"
               onClick={() => navigate('/')}
             >
-              Torna al portale
+              {t('nav.dashboard')}
             </Button>
           </Box>
         </Paper>

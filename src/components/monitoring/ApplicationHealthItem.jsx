@@ -11,37 +11,38 @@ import {
   Error as ErrorIcon,
   HelpOutline as UnknownIcon
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Get status configuration for applications
  */
-const getAppStatusConfig = (status) => {
+const getAppStatusConfig = (status, t) => {
   const configs = {
     healthy: {
       color: 'success',
       icon: <HealthyIcon sx={{ fontSize: 16 }} />,
-      label: 'Online'
+      label: t('monitoring.applicationsHealth.statusLabels.online')
     },
     degraded: {
       color: 'warning',
       icon: <DegradedIcon sx={{ fontSize: 16 }} />,
-      label: 'Lento'
+      label: t('monitoring.applicationsHealth.statusLabels.slow')
     },
     down: {
       color: 'error',
       icon: <ErrorIcon sx={{ fontSize: 16 }} />,
-      label: 'Offline'
+      label: t('monitoring.applicationsHealth.statusLabels.offline')
     },
     unreachable: {
       color: 'error',
       icon: <ErrorIcon sx={{ fontSize: 16 }} />,
-      label: 'Irraggiungibile'
+      label: t('monitoring.applicationsHealth.statusLabels.unreachable')
     }
   }
   return configs[status] || {
     color: 'default',
     icon: <UnknownIcon sx={{ fontSize: 16 }} />,
-    label: 'Sconosciuto'
+    label: t('monitoring.applicationsHealth.statusLabels.unknown')
   }
 }
 
@@ -49,9 +50,10 @@ const getAppStatusConfig = (status) => {
  * Application Health Item - Single application status
  */
 function ApplicationHealthItem({ app }) {
-  const statusConfig = getAppStatusConfig(app.status)
+  const { t } = useTranslation()
+  const statusConfig = getAppStatusConfig(app.status, t)
   const iconUrl = app.icon_file 
-    ? `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/uploads/icons/${app.icon_file}`
+    ? `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'}/applications/icons/${app.icon_file}`
     : null
 
   return (
@@ -98,6 +100,8 @@ function ApplicationHealthItem({ app }) {
           </Typography>
           <Typography variant="caption" color="text.secondary" noWrap>
             {app.url}
+            {app.status_code && ` • HTTP ${app.status_code}`}
+            {!app.status_code && app.message && ` • ${app.message}`}
           </Typography>
         </Box>
       </Box>

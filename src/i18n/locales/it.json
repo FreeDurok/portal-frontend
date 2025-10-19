@@ -1,0 +1,276 @@
+{
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "applications": "Applicazioni",
+    "users": "Utenti",
+    "monitoring": "Monitoring",
+    "logs": "Logs",
+    "logout": "Logout",
+    "adminPortal": "Portale Applicazioni - Admin",
+    "publicPortal": "Portale Applicazioni",
+    "adminLogin": "Admin Login",
+    "language": "Lingua",
+    "lightMode": "Modalità chiara",
+    "darkMode": "Modalità scura"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Panoramica generale del sistema e delle applicazioni",
+    "stats": {
+      "activeApps": "Applicazioni Attive",
+      "totalUsers": "Utenti Totali",
+      "alerts": "Alert Attivi"
+    },
+    "systemHealth": "System Health",
+    "quickActions": {
+      "title": "Azioni Rapide",
+      "newApp": "Nuova Applicazione",
+      "newUser": "Nuovo Utente",
+      "viewLogs": "Visualizza Logs",
+      "viewMonitoring": "Monitoring"
+    },
+    "systemNotes": {
+      "title": "Note di Sistema",
+      "content": "Tutti i servizi sono operativi. Nessun intervento richiesto."
+    }
+  },
+  "applications": {
+    "title": "Gestione Applicazioni",
+    "subtitle": "Gestisci le applicazioni del portale",
+    "newApp": "Nuova Applicazione",
+    "table": {
+      "name": "Nome",
+      "description": "Descrizione",
+      "url": "URL",
+      "category": "Categoria",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "status": {
+      "active": "Attiva",
+      "inactive": "Inattiva"
+    },
+    "dialog": {
+      "create": "Crea Nuova Applicazione",
+      "edit": "Modifica Applicazione",
+      "name": "Nome Applicazione",
+      "nameLabel": "Nome",
+      "description": "Descrizione",
+      "url": "URL",
+      "category": "Categoria",
+      "categoryPlaceholder": "es. Produttività, Comunicazione",
+      "order": "Ordine",
+      "orderHelp": "Determina l'ordine di visualizzazione (numeri più bassi appaiono prima)",
+      "isActive": "Applicazione Attiva",
+      "icon": "Icona Applicazione",
+      "iconUrlTab": "URL Remoto",
+      "iconUploadTab": "Carica File",
+      "iconUrl": "URL Icona",
+      "iconUrlPlaceholder": "https://example.com/icon.png",
+      "selectIcon": "Seleziona Icona",
+      "uploading": "Caricamento...",
+      "supportedFormats": "Formati supportati: PNG, JPG, SVG, WEBP, GIF (max 5MB)",
+      "cancel": "Annulla",
+      "create_btn": "Crea",
+      "save": "Salva"
+    },
+    "delete": {
+      "title": "Conferma Eliminazione",
+      "warning": "Questa azione è permanente e non può essere annullata.",
+      "message": "Sei sicuro di voler eliminare questa applicazione?",
+      "appName": "Nome applicazione:",
+      "appDescription": "Descrizione:",
+      "appUrl": "URL:",
+      "cancel": "Annulla",
+      "confirm": "Elimina"
+    }
+  },
+  "users": {
+    "title": "Gestione Utenti",
+    "subtitle": "Gestisci gli utenti del sistema",
+    "newUser": "Nuovo Utente",
+    "table": {
+      "username": "Username",
+      "email": "Email",
+      "role": "Ruolo",
+      "status": "Stato",
+      "actions": "Azioni"
+    },
+    "roles": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "status": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "dialog": {
+      "create": "Crea Nuovo Utente",
+      "edit": "Modifica Utente",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "oldPassword": "Vecchia Password",
+      "oldPasswordHelp": "Inserisci la password attuale per confermare la modifica",
+      "newPassword": "Nuova Password (lascia vuoto per non modificare)",
+      "newPasswordHelp": "Compila solo se vuoi modificare la password",
+      "confirmPassword": "Conferma Password",
+      "passwordMismatch": "Le password non coincidono",
+      "oldPasswordRequired": "Inserisci la vecchia password per modificarla",
+      "isActive": "Utente Attivo",
+      "adminWarning": "Questo è un account amministratore. La modifica dei privilegi admin non è disponibile.",
+      "role": "Ruolo",
+      "cancel": "Annulla",
+      "create_btn": "Crea Utente",
+      "save": "Salva Modifiche"
+    },
+    "delete": {
+      "title": "Conferma Eliminazione",
+      "message": "Sei sicuro di voler eliminare l'utente:",
+      "warning": "Questa azione è irreversibile e eliminerà permanentemente l'utente dal sistema.",
+      "warningTitle": "Attenzione:",
+      "cancel": "Annulla",
+      "confirm": "Elimina Utente"
+    }
+  },
+  "monitoring": {
+    "title": "Monitoring",
+    "subtitle": "Monitoraggio dello stato dei servizi e delle applicazioni",
+    "refresh": "Aggiorna",
+    "refreshing": "Aggiornamento...",
+    "card": {
+      "systemHealth": "System Health",
+      "servicesStatus": "Servizi Operativi",
+      "appsMonitored": "Applicazioni Monitorate",
+      "uptime": "Uptime",
+      "lastCheck": "Ultimo Check",
+      "updating": "Aggiornamento..."
+    },
+    "status": {
+      "healthy": "Operativo",
+      "degraded": "Rallentato",
+      "down": "Non disponibile",
+      "unreachable": "Non raggiungibile"
+    },
+    "summary": {
+      "title": "Riepilogo Stato",
+      "services": "Servizi",
+      "applications": "Applicazioni"
+    },
+    "appsHealth": {
+      "title": "Stato Applicazioni",
+      "noApps": "Nessuna applicazione configurata"
+    },
+    "serviceStatus": {
+      "title": "Stato Servizi",
+      "name": "Servizio",
+      "status": "Stato",
+      "uptime": "Uptime",
+      "responseTime": "Tempo Risposta",
+      "lastCheck": "Ultimo Controllo",
+      "details": "Dettagli",
+      "responseQuality": {
+        "excellent": "Ottimo",
+        "good": "Buono",
+        "acceptable": "Accettabile",
+        "slow": "Lento"
+      }
+    },
+    "healthSummary": {
+      "allServicesOperational": "Tutti i Servizi Operativi",
+      "systemFunctioning": "Il sistema funziona correttamente",
+      "servicesSlowed": "Servizi Rallentati",
+      "someServicesResponding": "Alcuni servizi rispondono lentamente",
+      "servicesUnavailable": "Servizi Non Disponibili",
+      "servicesNotReachable": "Uno o più servizi non sono raggiungibili",
+      "updatingInProgress": "Aggiornamento in corso...",
+      "uptime": "Uptime",
+      "systemActiveSince": "Sistema attivo da",
+      "averageTime": "Tempo Medio",
+      "servicesResponse": "Risposta dei servizi",
+      "services": "Servizi",
+      "operational": "Operativi",
+      "lastUpdate": "Ultimo aggiornamento",
+      "days": "giorni",
+      "hours": "ore",
+      "minutes": "minuti",
+      "seconds": "secondi"
+    },
+    "applicationsHealth": {
+      "applications": "Applicazioni",
+      "applicationsMonitored": "applicazioni monitorate",
+      "noApplications": "Nessuna applicazione da monitorare",
+      "statusLabels": {
+        "online": "Online",
+        "slow": "Lento",
+        "offline": "Offline",
+        "unreachable": "Irraggiungibile",
+        "unknown": "Sconosciuto"
+      }
+    },
+    "monitoringPage": {
+      "note": "Nota",
+      "autoUpdateNote": "Il sistema esegue controlli automatici ogni 10 secondi. I dati vengono aggiornati in background senza necessità di ricaricare la pagina.",
+      "applicationStatus": "Stato Applicazioni",
+      "serviceDetails": "Dettaglio Servizi"
+    }
+  },
+  "logs": {
+    "title": "Log dell'Applicazione",
+    "subtitle": "Monitora i log in tempo reale",
+    "loading": "Caricamento log...",
+    "error": "Errore nel caricamento dei log",
+    "errorClearing": "Errore nella cancellazione dei log",
+    "noLogs": "Nessun log disponibile",
+    "noResults": "Nessun log corrisponde alla ricerca",
+    "refresh": "Aggiorna",
+    "streamingActive": "Streaming Attivo",
+    "streamingInactive": "Streaming Inattivo",
+    "lines": "righe",
+    "searchPlaceholder": "Cerca nei log...",
+    "autoScroll": "Auto-scroll",
+    "startStreaming": "Avvia Streaming",
+    "stopStreaming": "Ferma Streaming",
+    "reloadLogs": "Ricarica log",
+    "downloadLogs": "Scarica log",
+    "clearLogs": "Cancella log",
+    "confirmClear": "Sei sicuro di voler cancellare tutti i log?",
+    "successCleared": "Log cancellati con successo"
+  },
+  "publicPortal": {
+    "title": "Portale Applicazioni",
+    "subtitle": "Accedi alle tue applicazioni in modo semplice e veloce",
+    "loading": "Caricamento...",
+    "errorLoading": "Errore nel caricamento delle applicazioni",
+    "noApplications": "Nessuna applicazione disponibile al momento"
+  },
+  "login": {
+    "title": "Accedi",
+    "subtitle": "Inserisci le tue credenziali per accedere",
+    "username": "Username",
+    "password": "Password",
+    "login": "Accedi",
+    "loggingIn": "Accesso in corso...",
+    "error": "Credenziali non valide"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "create": "Crea",
+    "search": "Cerca",
+    "actions": "Azioni",
+    "status": "Stato",
+    "name": "Nome",
+    "description": "Descrizione",
+    "url": "URL",
+    "noData": "Nessun dato disponibile",
+    "createdAt": "Data Creazione",
+    "order": "Ordine"
+  }
+}

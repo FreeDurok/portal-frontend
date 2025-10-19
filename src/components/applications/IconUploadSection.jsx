@@ -10,6 +10,7 @@ import {
   Avatar
 } from '@mui/material'
 import { CloudUpload, Link as LinkIcon } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 function IconUploadSection({
   iconTab,
@@ -20,25 +21,27 @@ function IconUploadSection({
   onTabChange,
   onFileUpload
 }) {
+  const { t } = useTranslation()
+  
   return (
     <Box>
       <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600 }}>
-        Icona Applicazione
+        {t('applications.dialog.icon')}
       </Typography>
       
       <Tabs value={iconTab} onChange={onTabChange} sx={{ mb: 2 }}>
-        <Tab icon={<LinkIcon />} label="URL Remoto" />
-        <Tab icon={<CloudUpload />} label="Carica File" />
+        <Tab icon={<LinkIcon />} label={t('applications.dialog.iconUrlTab')} />
+        <Tab icon={<CloudUpload />} label={t('applications.dialog.iconUploadTab')} />
       </Tabs>
 
       {iconTab === 0 ? (
         <TextField
           fullWidth
-          label="URL Icona"
+          label={t('applications.dialog.iconUrl')}
           name="icon_url"
           value={formData.icon_url}
           onChange={onChange}
-          placeholder="https://example.com/icon.png"
+          placeholder={t('applications.dialog.iconUrlPlaceholder')}
         />
       ) : (
         <Box>
@@ -49,7 +52,7 @@ function IconUploadSection({
             disabled={uploading}
             fullWidth
           >
-            {uploading ? 'Caricamento...' : 'Seleziona Icona'}
+            {uploading ? t('applications.dialog.uploading') : t('applications.dialog.selectIcon')}
             <input
               type="file"
               hidden
@@ -58,7 +61,7 @@ function IconUploadSection({
             />
           </Button>
           <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-            Formati supportati: PNG, JPG, SVG, WEBP, GIF (max 5MB)
+            {t('applications.dialog.supportedFormats')}
           </Typography>
         </Box>
       )}

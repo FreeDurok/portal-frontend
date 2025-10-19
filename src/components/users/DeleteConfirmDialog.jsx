@@ -9,8 +9,11 @@ import {
   Alert
 } from '@mui/material'
 import { Warning } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 function DeleteConfirmDialog({ open, user, onClose, onConfirm }) {
+  const { t } = useTranslation()
+  
   if (!user) return null
 
   return (
@@ -27,13 +30,13 @@ function DeleteConfirmDialog({ open, user, onClose, onConfirm }) {
         color: 'error.main'
       }}>
         <Warning />
-        Conferma Eliminazione
+        {t('users.delete.title')}
       </DialogTitle>
       
       <DialogContent>
         <Box sx={{ mb: 2 }}>
           <Typography variant="body1" gutterBottom>
-            Sei sicuro di voler eliminare l'utente:
+            {t('users.delete.message')}
           </Typography>
           <Box sx={{ 
             mt: 2, 
@@ -54,21 +57,21 @@ function DeleteConfirmDialog({ open, user, onClose, onConfirm }) {
         
         <Alert severity="error" sx={{ mt: 2 }}>
           <Typography variant="body2">
-            <strong>Attenzione:</strong> Questa azione è irreversibile e eliminerà permanentemente l'utente dal sistema.
+            <strong>{t('users.delete.warningTitle')}</strong> {t('users.delete.warning')}
           </Typography>
         </Alert>
       </DialogContent>
       
       <DialogActions sx={{ px: 3, py: 2 }}>
         <Button onClick={onClose} variant="outlined">
-          Annulla
+          {t('users.delete.cancel')}
         </Button>
         <Button 
           onClick={onConfirm} 
           variant="contained"
           color="error"
         >
-          Elimina Utente
+          {t('users.delete.confirm')}
         </Button>
       </DialogActions>
     </Dialog>

@@ -14,28 +14,29 @@ import {
   Speed as SpeedIcon,
   Schedule as TimeIcon
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Get status configuration
  */
-const getStatusConfig = (status) => {
+const getStatusConfig = (status, t) => {
   const configs = {
     healthy: {
       color: 'success',
       icon: <HealthyIcon sx={{ fontSize: 24 }} />,
-      label: 'Operativo',
+      label: t('monitoring.status.healthy'),
       bgcolor: 'success.lighter'
     },
     degraded: {
       color: 'warning',
       icon: <DegradedIcon sx={{ fontSize: 24 }} />,
-      label: 'Rallentato',
+      label: t('monitoring.status.degraded'),
       bgcolor: 'warning.lighter'
     },
     down: {
       color: 'error',
       icon: <ErrorIcon sx={{ fontSize: 24 }} />,
-      label: 'Non disponibile',
+      label: t('monitoring.status.down'),
       bgcolor: 'error.lighter'
     }
   }
@@ -45,19 +46,20 @@ const getStatusConfig = (status) => {
 /**
  * Format response time with color coding
  */
-const getResponseTimeConfig = (responseTime) => {
-  if (responseTime < 50) return { color: 'success.main', label: 'Ottimo' }
-  if (responseTime < 100) return { color: 'info.main', label: 'Buono' }
-  if (responseTime < 200) return { color: 'warning.main', label: 'Accettabile' }
-  return { color: 'error.main', label: 'Lento' }
+const getResponseTimeConfig = (responseTime, t) => {
+  if (responseTime < 50) return { color: 'success.main', label: t('monitoring.serviceStatus.responseQuality.excellent') }
+  if (responseTime < 100) return { color: 'info.main', label: t('monitoring.serviceStatus.responseQuality.good') }
+  if (responseTime < 200) return { color: 'warning.main', label: t('monitoring.serviceStatus.responseQuality.acceptable') }
+  return { color: 'error.main', label: t('monitoring.serviceStatus.responseQuality.slow') }
 }
 
 /**
  * Service Status Card - Detailed view of a single service
  */
 function ServiceStatusCard({ service }) {
-  const statusConfig = getStatusConfig(service.status)
-  const responseConfig = getResponseTimeConfig(service.response_time)
+  const { t, i18n } = useTranslation()
+  const statusConfig = getStatusConfig(service.status, t)
+  const responseConfig = getResponseTimeConfig(service.response_time, t)
 
   return (
     <Card elevation={2}>
@@ -99,7 +101,7 @@ function ServiceStatusCard({ service }) {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <SpeedIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
               <Typography variant="body2" color="text.secondary">
-                Tempo di Risposta
+                {t('monitoring.serviceStatus.responseTime')}
               </Typography>
             </Box>
             <Box sx={{ textAlign: 'right' }}>
@@ -121,11 +123,11 @@ function ServiceStatusCard({ service }) {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <TimeIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
               <Typography variant="body2" color="text.secondary">
-                Ultimo Controllo
+                {t('monitoring.serviceStatus.lastCheck')}
               </Typography>
             </Box>
             <Typography variant="body2" fontWeight={500}>
-              {new Date(service.last_check).toLocaleTimeString('it-IT', {
+              {new Date(service.last_check).toLocaleTimeString(i18n.language === 'en' ? 'en-US' : 'it-IT', {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit'
@@ -150,7 +152,7 @@ function ServiceStatusCard({ service }) {
                 display="block" 
                 gutterBottom
               >
-                Dettagli
+                {t('monitoring.serviceStatus.details')}
               </Typography>
               <Typography 
                 variant="body2"

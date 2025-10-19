@@ -2,7 +2,7 @@ import axios from './axios'
 
 export const applicationsAPI = {
   getAll: async () => {
-    const response = await axios.get('/applications')
+    const response = await axios.get('/applications/')
     return response.data
   },
 
@@ -12,7 +12,7 @@ export const applicationsAPI = {
   },
 
   create: async (data) => {
-    const response = await axios.post('/applications', data)
+    const response = await axios.post('/applications/', data)
     return response.data
   },
 

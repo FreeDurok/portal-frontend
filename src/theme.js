@@ -6,17 +6,17 @@ export const getTheme = (mode) => createTheme({
   palette: {
     mode,
     primary: {
-      main: mode === 'dark' ? '#FF6B35' : '#FF5722', // Vibrant Orange
+      main: mode === 'dark' ? '#FF5722' : '#F4511E', // Vibrant Orange
       light: '#FF8A65',
       lighter: mode === 'dark' ? '#FFE0D6' : '#FFEBEE',
       dark: '#E64A19',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: mode === 'dark' ? '#9C27B0' : '#7B1FA2', // Deep Purple
-      light: '#BA68C8',
-      lighter: mode === 'dark' ? '#F3E5F5' : '#F3E5F5',
-      dark: '#6A1B9A',
+      main: mode === 'dark' ? '#FB8C00' : '#EF6C00', // Deep Orange/Burnt Orange
+      light: '#FFB74D',
+      lighter: mode === 'dark' ? '#FFF3E0' : '#FFF3E0',
+      dark: '#E65100',
       contrastText: '#FFFFFF',
     },
     success: {
@@ -115,14 +115,14 @@ export const getTheme = (mode) => createTheme({
           boxShadow: 'none',
           '&:hover': {
             boxShadow: mode === 'dark' 
-              ? '0 4px 12px rgba(255, 107, 53, 0.3)'
-              : '0 4px 12px rgba(255, 87, 34, 0.2)',
+              ? '0 4px 12px rgba(255, 87, 34, 0.3)'
+              : '0 4px 12px rgba(244, 81, 30, 0.2)',
           },
         },
         contained: {
           background: mode === 'dark'
-            ? 'linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%)'
-            : 'linear-gradient(135deg, #FF5722 0%, #FF7043 100%)',
+            ? 'linear-gradient(135deg, #FF5722 0%, #FF7043 100%)'
+            : 'linear-gradient(135deg, #F4511E 0%, #FF6F43 100%)',
         },
       },
     },
@@ -138,8 +138,8 @@ export const getTheme = (mode) => createTheme({
           '&:hover': {
             transform: 'translateY(-4px)',
             boxShadow: mode === 'dark'
-              ? '0 8px 24px rgba(255, 107, 53, 0.3)'
-              : '0 8px 24px rgba(255, 87, 34, 0.15)',
+              ? '0 8px 24px rgba(255, 87, 34, 0.3)'
+              : '0 8px 24px rgba(244, 81, 30, 0.15)',
           },
         },
       },

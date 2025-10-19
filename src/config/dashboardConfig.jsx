@@ -8,23 +8,23 @@ import {
 /**
  * Configurazione delle card statistiche
  */
-export const statCardsConfig = (stats, navigate) => [
+export const statCardsConfig = (stats, navigate, t) => [
   {
-    title: 'Applicazioni',
+    title: t('nav.applications'),
     value: stats.totalApps,
     icon: <AppsIcon fontSize="large" />,
     color: 'primary',
     onClick: () => navigate('/admin/applications')
   },
   {
-    title: 'Attive',
+    title: t('dashboard.stats.activeApps'),
     value: stats.activeApps,
     icon: <CheckCircleIcon fontSize="large" />,
     color: 'success',
     onClick: () => navigate('/admin/applications')
   },
   {
-    title: 'Utenti',
+    title: t('dashboard.stats.totalUsers'),
     value: stats.totalUsers || 0,
     icon: <TrendingUpIcon fontSize="large" />,
     color: 'info',
@@ -35,16 +35,16 @@ export const statCardsConfig = (stats, navigate) => [
 /**
  * Configurazione delle azioni rapide
  */
-export const quickActionsConfig = (navigate) => [
+export const quickActionsConfig = (navigate, t) => [
   {
-    title: 'Gestisci Applicazioni',
-    description: 'Aggiungi, modifica o elimina applicazioni del portale',
+    title: t('applications.title'),
+    description: t('applications.subtitle'),
     icon: <AppsIcon />,
     onClick: () => navigate('/admin/applications')
   },
   {
-    title: 'Monitoring Servizi',
-    description: 'Monitora lo stato di salute dei servizi in tempo reale',
+    title: t('monitoring.title'),
+    description: t('monitoring.subtitle'),
     icon: <MonitorIcon />,
     onClick: () => navigate('/admin/monitoring')
   }
@@ -53,8 +53,7 @@ export const quickActionsConfig = (navigate) => [
 /**
  * Note di sistema da visualizzare
  */
-export const systemNotes = [
-  'Tutte le API del backend richiedono autenticazione',
-  'Il sistema di monitoring esegue controlli automatici ogni 10 secondi',
-  'Le modifiche vengono applicate in tempo reale grazie al hot-reload'
-]
+export const systemNotes = (t) => ({
+  title: t('dashboard.systemNotes.title'),
+  content: t('dashboard.systemNotes.content')
+})

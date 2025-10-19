@@ -3,7 +3,7 @@ import { Paper, Typography } from '@mui/material'
 /**
  * Sezione informativa per note di sistema e messaggi importanti
  */
-function InfoSection({ title, items, icon }) {
+function InfoSection({ title, content, icon }) {
   return (
     <Paper 
       elevation={0} 
@@ -18,12 +18,7 @@ function InfoSection({ title, items, icon }) {
         {icon} {title}
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        {items.map((item, index) => (
-          <span key={index}>
-            • {item}
-            {index < items.length - 1 && <br />}
-          </span>
-        ))}
+        {content}
       </Typography>
     </Paper>
   )

@@ -7,10 +7,12 @@ import {
   CircularProgress,
   Alert
 } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import ApplicationCard from '../components/ApplicationCard'
 import { publicAPI } from '../api/public'
 
 function Dashboard() {
+  const { t } = useTranslation()
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -27,7 +29,7 @@ function Dashboard() {
       setApplications(data)
       setError(null)
     } catch (err) {
-      setError('Errore nel caricamento delle applicazioni')
+      setError(t('publicPortal.errorLoading'))
       console.error('Error loading public applications:', err)
     } finally {
       setLoading(false)
@@ -43,10 +45,10 @@ function Dashboard() {
           gutterBottom
           sx={{ fontWeight: 700 }}
         >
-          Portale Applicazioni
+          {t('publicPortal.title')}
         </Typography>
         <Typography variant="h6" color="text.secondary">
-          Accedi alle tue applicazioni in modo semplice e veloce
+          {t('publicPortal.subtitle')}
         </Typography>
       </Box>
 
@@ -64,7 +66,7 @@ function Dashboard() {
 
       {!loading && applications.length === 0 && (
         <Alert severity="info">
-          Nessuna applicazione disponibile al momento
+          {t('publicPortal.noApplications')}
         </Alert>
       )}
 

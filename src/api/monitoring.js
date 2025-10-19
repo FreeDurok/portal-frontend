@@ -9,7 +9,9 @@ import axios from './axios'
  * @returns {Promise} Health check data
  */
 export const getHealthStatus = async () => {
-  const response = await axios.get('/public/health')
+  const response = await axios.get('/public/health', {
+    timeout: 8000 // 8 seconds max wait time (backend timeout is 2s per app)
+  })
   return response.data
 }
 

@@ -24,46 +24,57 @@ import {
   Apps as AppsIcon,
   People as PeopleIcon,
   MonitorHeart as MonitorIcon,
+  Description as LogsIcon,
   Logout as LogoutIcon,
   Person as PersonIcon,
   Brightness4,
-  Brightness7
+  Brightness7,
+  Language,
+  Home as HomeIcon
 } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 import useAuthStore from '../../store/authStore'
 import { useThemeMode } from '../../contexts/ThemeContext'
 
 const DRAWER_WIDTH = 260
 
-const menuItems = [
-  {
-    text: 'Dashboard',
-    icon: <DashboardIcon />,
-    path: '/admin'
-  },
-  {
-    text: 'Applicazioni',
-    icon: <AppsIcon />,
-    path: '/admin/applications'
-  },
-  {
-    text: 'Utenti',
-    icon: <PeopleIcon />,
-    path: '/admin/users'
-  },
-  {
-    text: 'Monitoring',
-    icon: <MonitorIcon />,
-    path: '/admin/monitoring'
-  }
-]
-
 function AdminLayout() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { t, i18n } = useTranslation()
   const { user, logout } = useAuthStore()
   const { mode, toggleTheme } = useThemeMode()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [langAnchor, setLangAnchor] = useState(null)
+
+  const menuItems = [
+    {
+      text: t('nav.dashboard'),
+      icon: <DashboardIcon />,
+      path: '/admin'
+    },
+    {
+      text: t('nav.applications'),
+      icon: <AppsIcon />,
+      path: '/admin/applications'
+    },
+    {
+      text: t('nav.users'),
+      icon: <PeopleIcon />,
+      path: '/admin/users'
+    },
+    {
+      text: t('nav.monitoring'),
+      icon: <MonitorIcon />,
+      path: '/admin/monitoring'
+    },
+    {
+      text: t('nav.logs'),
+      icon: <LogsIcon />,
+      path: '/admin/logs'
+    }
+  ]
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -85,6 +96,19 @@ function AdminLayout() {
   const handleLogout = () => {
     logout()
     navigate('/admin/login')
+  }
+
+  const handleLanguageClick = (event) => {
+    setLangAnchor(event.currentTarget)
+  }
+
+  const handleLanguageClose = () => {
+    setLangAnchor(null)
+  }
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang)
+    handleLanguageClose()
   }
 
   const isActive = (path) => {
@@ -176,9 +200,22 @@ function AdminLayout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: 'text.primary' }}>
-            Pannello di Amministrazione
+            {t('dashboard.title')} - Admin
           </Typography>
-          <Tooltip title={mode === 'dark' ? 'Modalità chiara' : 'Modalità scura'}>
+          
+          <Tooltip title={t('nav.home')}>
+            <IconButton onClick={() => navigate('/')} sx={{ mr: 1, color: 'text.primary' }}>
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
+          
+          <Tooltip title={i18n.language === 'it' ? 'Lingua' : 'Language'}>
+            <IconButton onClick={handleLanguageClick} sx={{ mr: 1, color: 'text.primary' }}>
+              <Language />
+            </IconButton>
+          </Tooltip>
+          
+          <Tooltip title={mode === 'dark' ? (i18n.language === 'it' ? 'Modalità chiara' : 'Light mode') : (i18n.language === 'it' ? 'Modalità scura' : 'Dark mode')}>
             <IconButton onClick={toggleTheme} sx={{ mr: 1, color: 'text.primary' }}>
               {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
@@ -190,6 +227,26 @@ function AdminLayout() {
           </IconButton>
         </Toolbar>
       </AppBar>
+
+      {/* Language Menu */}
+      <Menu
+        anchorEl={langAnchor}
+        open={Boolean(langAnchor)}
+        onClose={handleLanguageClose}
+      >
+        <MenuItem 
+          onClick={() => handleLanguageChange('it')}
+          selected={i18n.language === 'it'}
+        >
+          🇮🇹 Italiano
+        </MenuItem>
+        <MenuItem 
+          onClick={() => handleLanguageChange('en')}
+          selected={i18n.language === 'en'}
+        >
+          🇬🇧 English
+        </MenuItem>
+      </Menu>
 
       {/* User Menu */}
       <Menu
@@ -205,7 +262,7 @@ function AdminLayout() {
         <Divider />
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ mr: 1 }} fontSize="small" />
-          Logout
+          {t('nav.logout')}
         </MenuItem>
       </Menu>
 

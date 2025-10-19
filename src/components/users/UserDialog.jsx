@@ -14,6 +14,7 @@ import {
   InputAdornment
 } from '@mui/material'
 import { Close, Visibility, VisibilityOff } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 function UserDialog({
   open,
@@ -23,6 +24,7 @@ function UserDialog({
   onSubmit,
   onChange
 }) {
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [showOldPassword, setShowOldPassword] = useState(false)
@@ -32,13 +34,13 @@ function UserDialog({
   const handleSubmit = () => {
     // Validazione conferma password per nuovi utenti
     if (!editingUser && formData.password !== confirmPassword) {
-      alert('Le password non coincidono')
+      alert(t('users.dialog.passwordMismatch'))
       return
     }
 
     // Validazione vecchia password per modifica
     if (editingUser && formData.password && !oldPassword) {
-      alert('Inserisci la vecchia password per modificarla')
+      alert(t('users.dialog.oldPasswordRequired'))
       return
     }
 
@@ -69,7 +71,7 @@ function UserDialog({
         borderBottom: 1,
         borderColor: 'divider'
       }}>
-        {editingUser ? 'Modifica Utente' : 'Nuovo Utente'}
+        {editingUser ? t('users.dialog.edit') : t('users.dialog.create')}
         <IconButton onClick={handleClose} size="small">
           <Close />
         </IconButton>
@@ -78,7 +80,7 @@ function UserDialog({
       <DialogContent dividers>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 1 }}>
           <TextField
-            label="Username"
+            label={t('users.dialog.username')}
             fullWidth
             value={formData.username || ''}
             onChange={(e) => onChange('username', e.target.value)}
@@ -87,7 +89,7 @@ function UserDialog({
           />
           
           <TextField
-            label="Email"
+            label={t('users.dialog.email')}
             type="email"
             fullWidth
             value={formData.email || ''}
@@ -98,13 +100,13 @@ function UserDialog({
           {editingUser ? (
             <>
               <TextField
-                label="Vecchia Password"
+                label={t('users.dialog.oldPassword')}
                 type={showOldPassword ? 'text' : 'password'}
                 fullWidth
                 value={oldPassword || ''}
                 onChange={(e) => setOldPassword(e.target.value)}
                 required={!!formData.password}
-                helperText="Inserisci la password attuale per confermare la modifica"
+                helperText={t('users.dialog.oldPasswordHelp')}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -120,12 +122,12 @@ function UserDialog({
                 }}
               />
               <TextField
-                label="Nuova Password (lascia vuoto per non modificare)"
+                label={t('users.dialog.newPassword')}
                 type={showPassword ? 'text' : 'password'}
                 fullWidth
                 value={formData.password || ''}
                 onChange={(e) => onChange('password', e.target.value)}
-                helperText="Compila solo se vuoi modificare la password"
+                helperText={t('users.dialog.newPasswordHelp')}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -143,7 +145,7 @@ function UserDialog({
             </>
           ) : (
             <TextField
-              label="Password"
+              label={t('users.dialog.password')}
               type={showPassword ? 'text' : 'password'}
               fullWidth
               value={formData.password || ''}
@@ -167,7 +169,7 @@ function UserDialog({
 
           {!editingUser && (
             <TextField
-              label="Conferma Password"
+              label={t('users.dialog.confirmPassword')}
               type={showConfirmPassword ? 'text' : 'password'}
               fullWidth
               value={confirmPassword || ''}
@@ -176,7 +178,7 @@ function UserDialog({
               error={!!(confirmPassword && formData.password !== confirmPassword)}
               helperText={
                 confirmPassword && formData.password !== confirmPassword
-                  ? "Le password non coincidono"
+                  ? t('users.dialog.passwordMismatch')
                   : undefined
               }
               InputProps={{
@@ -210,12 +212,12 @@ function UserDialog({
                   onChange={(e) => onChange('is_active', e.target.checked)}
                 />
               }
-              label="Utente Attivo"
+              label={t('users.dialog.isActive')}
             />
             
             {editingUser && editingUser.is_admin && (
               <Alert severity="warning" sx={{ mt: 1 }}>
-                Questo è un account amministratore. La modifica dei privilegi admin non è disponibile.
+                {t('users.dialog.adminWarning')}
               </Alert>
             )}
           </Box>
@@ -224,13 +226,13 @@ function UserDialog({
       
       <DialogActions sx={{ px: 3, py: 2, borderTop: 1, borderColor: 'divider' }}>
         <Button onClick={handleClose}>
-          Annulla
+          {t('users.dialog.cancel')}
         </Button>
         <Button 
           onClick={handleSubmit} 
           variant="contained"
         >
-          {editingUser ? 'Salva Modifiche' : 'Crea Utente'}
+          {editingUser ? t('users.dialog.save') : t('users.dialog.create_btn')}
         </Button>
       </DialogActions>
     </Dialog>

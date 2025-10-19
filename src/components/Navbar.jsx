@@ -1,6 +1,8 @@
-import { AppBar, Toolbar, Typography, Button, Box, IconButton, Tooltip } from '@mui/material'
+import { AppBar, Toolbar, Typography, Button, Box, IconButton, Tooltip, Menu, MenuItem } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { Dashboard, Apps, Logout, Brightness4, Brightness7 } from '@mui/icons-material'
+import { Dashboard, Apps, Logout, Brightness4, Brightness7, Language, Home } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 import useAuthStore from '../store/authStore'
 import { useThemeMode } from '../contexts/ThemeContext'
 
@@ -8,10 +10,25 @@ function Navbar({ admin = false }) {
   const navigate = useNavigate()
   const { logout, user } = useAuthStore()
   const { mode, toggleTheme } = useThemeMode()
+  const { t, i18n } = useTranslation()
+  const [langAnchor, setLangAnchor] = useState(null)
 
   const handleLogout = () => {
     logout()
     navigate('/admin/login')
+  }
+
+  const handleLanguageClick = (event) => {
+    setLangAnchor(event.currentTarget)
+  }
+
+  const handleLanguageClose = () => {
+    setLangAnchor(null)
+  }
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang)
+    handleLanguageClose()
   }
 
   return (
@@ -19,10 +36,34 @@ function Navbar({ admin = false }) {
       <Toolbar>
         <Dashboard sx={{ mr: 2, color: 'primary.main' }} />
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
-          {admin ? 'Portale Applicazioni - Admin' : 'Portale Applicazioni'}
+          {admin ? t('nav.adminPortal') : t('nav.publicPortal')}
         </Typography>
         
-        <Tooltip title={mode === 'dark' ? 'Modalità chiara' : 'Modalità scura'}>
+        <Tooltip title={t('nav.language')}>
+          <IconButton onClick={handleLanguageClick} color="inherit" sx={{ mr: 1 }}>
+            <Language />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          anchorEl={langAnchor}
+          open={Boolean(langAnchor)}
+          onClose={handleLanguageClose}
+        >
+          <MenuItem 
+            onClick={() => handleLanguageChange('it')}
+            selected={i18n.language === 'it'}
+          >
+            🇮🇹 Italiano
+          </MenuItem>
+          <MenuItem 
+            onClick={() => handleLanguageChange('en')}
+            selected={i18n.language === 'en'}
+          >
+            🇬🇧 English
+          </MenuItem>
+        </Menu>
+        
+        <Tooltip title={mode === 'dark' ? t('nav.lightMode') : t('nav.darkMode')}>
           <IconButton onClick={toggleTheme} color="inherit" sx={{ mr: 2 }}>
             {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
@@ -32,24 +73,31 @@ function Navbar({ admin = false }) {
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button 
               color="inherit" 
+              startIcon={<Home />}
+              onClick={() => navigate('/')}
+            >
+              {t('nav.home')}
+            </Button>
+            <Button 
+              color="inherit" 
               startIcon={<Dashboard />}
               onClick={() => navigate('/admin')}
             >
-              Dashboard
+              {t('nav.dashboard')}
             </Button>
             <Button 
               color="inherit" 
               startIcon={<Apps />}
               onClick={() => navigate('/admin/applications')}
             >
-              Applicazioni
+              {t('nav.applications')}
             </Button>
             <Button 
               color="inherit" 
               startIcon={<Logout />}
               onClick={handleLogout}
             >
-              Logout ({user?.username})
+              {t('nav.logout')} ({user?.username})
             </Button>
           </Box>
         )}
@@ -57,9 +105,9 @@ function Navbar({ admin = false }) {
         {!admin && (
           <Button 
             variant="contained"
-            onClick={() => navigate('/admin/login')}
+            onClick={() => window.open('/admin/login', '_blank')}
           >
-            Admin Login
+            {t('nav.adminLogin')}
           </Button>
         )}
       </Toolbar>

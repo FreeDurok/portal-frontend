@@ -12,20 +12,22 @@ import {
   Avatar
 } from '@mui/material'
 import { Edit, Delete, Visibility } from '@mui/icons-material'
+import { useTranslation } from 'react-i18next'
 
 function ApplicationsTable({ applications, onEdit, onDelete, onView, getIconSource }) {
+  const { t } = useTranslation()
   return (
     <TableContainer component={Paper} elevation={0}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Icona</TableCell>
-            <TableCell>Nome</TableCell>
-            <TableCell>URL</TableCell>
-            <TableCell>Categoria</TableCell>
-            <TableCell>Ordine</TableCell>
-            <TableCell>Stato</TableCell>
-            <TableCell align="right">Azioni</TableCell>
+            <TableCell>{t('applications.dialog.icon')}</TableCell>
+            <TableCell>{t('applications.table.name')}</TableCell>
+            <TableCell>{t('applications.table.url')}</TableCell>
+            <TableCell>{t('applications.table.category')}</TableCell>
+            <TableCell>{t('common.order')}</TableCell>
+            <TableCell>{t('applications.table.status')}</TableCell>
+            <TableCell align="right">{t('applications.table.actions')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,7 +67,7 @@ function ApplicationsTable({ applications, onEdit, onDelete, onView, getIconSour
               <TableCell>{app.order}</TableCell>
               <TableCell>
                 <Chip
-                  label={app.is_active ? 'Attiva' : 'Inattiva'}
+                  label={app.is_active ? t('applications.status.active') : t('applications.status.inactive')}
                   color={app.is_active ? 'success' : 'default'}
                   size="small"
                 />
@@ -74,7 +76,7 @@ function ApplicationsTable({ applications, onEdit, onDelete, onView, getIconSour
                 <IconButton
                   size="small"
                   onClick={() => onView(app.url)}
-                  title="Visualizza"
+                  title={t('common.edit')}
                   color="primary"
                 >
                   <Visibility />
@@ -90,7 +92,7 @@ function ApplicationsTable({ applications, onEdit, onDelete, onView, getIconSour
                 <IconButton
                   size="small"
                   color="error"
-                  onClick={() => onDelete(app.id)}
+                  onClick={() => onDelete(app)}
                   title="Elimina"
                 >
                   <Delete />

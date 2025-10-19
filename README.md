@@ -4,6 +4,8 @@ Modern React frontend with Material-UI and Titillium Web font.
 
 > **Note**: This frontend works with [portal-backend](https://github.com/freedurok/portal-backend). Clone both repos in the same parent folder for full stack mode.
 
+> ⚠️ **Disclaimer**: This application was created for fun and learning purposes. Bugs are guaranteed! Use at your own risk.
+
 ## Features
 
 - ⚛️ React 18 with Vite
@@ -58,6 +60,20 @@ Create `.env`:
 VITE_API_URL=http://localhost:8000/api/v1
 NODE_ENV=development
 ```
+
+## First Admin User
+
+A default admin user is **automatically created** on first startup:
+
+```
+Email:    admin@example.com
+Username: admin
+Password: admin123
+```
+
+**⚠️ IMPORTANT**: Change the password immediately after first login!
+
+Check the backend logs to see the credentials when it starts.t frontend.
 
 ## URLs
 

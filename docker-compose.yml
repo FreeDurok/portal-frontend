@@ -35,6 +35,10 @@ services:
       DATABASE_URL: postgresql://portal:portal@db:5432/portal_db
       SECRET_KEY: ${SECRET_KEY:-change-this-secret-key-in-production}
       ALLOWED_ORIGINS: http://localhost:3000,http://localhost
+      # Default admin credentials (optional - only used if no admin exists)
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     volumes:
       - /tmp/portal-data/uploads:/app/uploads
     depends_on:

@@ -36,6 +36,10 @@ services:
       SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
       ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost
       ENVIRONMENT: development
+      # Default admin credentials (optional - only used if no admin exists)
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     volumes:
       - ../portal-backend/app:/app/app:ro
       - /tmp/portal-data/uploads:/app/uploads

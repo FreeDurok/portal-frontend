@@ -1,5 +1,9 @@
 # Portal Frontend
 
+
+https://github.com/user-attachments/assets/599e9abe-ab8b-4dca-9bea-4b28d8e0e44a
+
+
 Modern React frontend with Material-UI and Titillium Web font.
 
 > **Note**: This frontend works with [portal-backend](https://github.com/freedurok/portal-backend). Clone both repos in the same parent folder for full stack mode.

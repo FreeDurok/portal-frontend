@@ -2,7 +2,7 @@
 
 Modern React frontend with Material-UI and Titillium Web font.
 
-> **Note**: This frontend works with [portal-backend](https://github.com/YOUR_USERNAME/portal-backend). Clone both repos in the same parent folder for full stack mode.
+> **Note**: This frontend works with [portal-backend](https://github.com/freedurok/portal-backend). Clone both repos in the same parent folder for full stack mode.
 
 ## Features
 
@@ -16,7 +16,7 @@ Modern React frontend with Material-UI and Titillium Web font.
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/portal-frontend.git
+git clone https://github.com/freedurok/portal-frontend.git
 cd portal-frontend
 
 # Using Docker (recommended)
@@ -66,7 +66,7 @@ NODE_ENV=development
 
 ## Related
 
-- **Backend**: [portal-backend](https://github.com/YOUR_USERNAME/portal-backend)
+- **Backend**: [portal-backend](https://github.com/freedurok/portal-backend)
 
 ## License
 

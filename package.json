@@ -19,7 +19,8 @@
     "@emotion/styled": "^11.11.0",
     "axios": "^1.6.2",
     "react-hook-form": "^7.48.2",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

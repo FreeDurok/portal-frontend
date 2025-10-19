@@ -19,6 +19,11 @@ const useAuthStore = create(
       updateUser: (user) => {
         set((state) => ({ ...state, user }))
       },
+      
+      // Set token temporarily without marking as authenticated
+      setTempToken: (token) => {
+        set({ token, user: null, isAuthenticated: false })
+      },
     }),
     {
       name: 'auth-storage', // unique name for localStorage key

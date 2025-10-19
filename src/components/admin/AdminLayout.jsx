@@ -22,6 +22,7 @@ import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
   Apps as AppsIcon,
+  People as PeopleIcon,
   MonitorHeart as MonitorIcon,
   Logout as LogoutIcon,
   Person as PersonIcon,
@@ -43,6 +44,11 @@ const menuItems = [
     text: 'Applicazioni',
     icon: <AppsIcon />,
     path: '/admin/applications'
+  },
+  {
+    text: 'Utenti',
+    icon: <PeopleIcon />,
+    path: '/admin/users'
   },
   {
     text: 'Monitoring',
@@ -163,23 +169,22 @@ function AdminLayout() {
       >
         <Toolbar>
           <IconButton
-            color="inherit"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' }, color: 'text.primary' }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: 'text.primary' }}>
             Pannello di Amministrazione
           </Typography>
           <Tooltip title={mode === 'dark' ? 'Modalità chiara' : 'Modalità scura'}>
-            <IconButton onClick={toggleTheme} color="inherit" sx={{ mr: 1 }}>
+            <IconButton onClick={toggleTheme} sx={{ mr: 1, color: 'text.primary' }}>
               {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
             </IconButton>
           </Tooltip>
-          <IconButton onClick={handleUserMenuOpen}>
-            <Avatar sx={{ width: 32, height: 32, bgcolor: 'secondary.main' }}>
+          <IconButton onClick={handleUserMenuOpen} sx={{ color: 'text.primary' }}>
+            <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
               {user?.username?.[0]?.toUpperCase() || 'A'}
             </Avatar>
           </IconButton>

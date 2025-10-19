@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import AdminLogin from './pages/admin/Login'
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminApplications from './pages/admin/Applications'
+import AdminUsers from './pages/admin/Users'
 import AdminMonitoring from './pages/admin/Monitoring'
 import AdminLayout from './components/admin/AdminLayout'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -30,6 +31,7 @@ function App() {
           }>
             <Route index element={<AdminDashboard />} />
             <Route path="applications" element={<AdminApplications />} />
+            <Route path="users" element={<AdminUsers />} />
             <Route path="monitoring" element={<AdminMonitoring />} />
           </Route>
         </Routes>

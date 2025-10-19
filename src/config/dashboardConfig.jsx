@@ -24,18 +24,11 @@ export const statCardsConfig = (stats, navigate) => [
     onClick: () => navigate('/admin/applications')
   },
   {
-    title: 'Servizi',
-    value: '-',
+    title: 'Utenti',
+    value: stats.totalUsers || 0,
     icon: <TrendingUpIcon fontSize="large" />,
     color: 'info',
-    disabled: true
-  },
-  {
-    title: 'Health',
-    value: '-',
-    icon: <MonitorIcon fontSize="large" />,
-    color: 'warning',
-    disabled: true
+    onClick: () => navigate('/admin/users')
   }
 ]
 
@@ -51,10 +44,9 @@ export const quickActionsConfig = (navigate) => [
   },
   {
     title: 'Monitoring Servizi',
-    description: 'Monitora lo stato di salute dei servizi',
+    description: 'Monitora lo stato di salute dei servizi in tempo reale',
     icon: <MonitorIcon />,
-    disabled: true,
-    badge: 'Prossimamente'
+    onClick: () => navigate('/admin/monitoring')
   }
 ]
 
@@ -63,6 +55,6 @@ export const quickActionsConfig = (navigate) => [
  */
 export const systemNotes = [
   'Tutte le API del backend richiedono autenticazione',
-  'Il sistema di monitoring sarà disponibile nella prossima release',
+  'Il sistema di monitoring esegue controlli automatici ogni 10 secondi',
   'Le modifiche vengono applicate in tempo reale grazie al hot-reload'
 ]

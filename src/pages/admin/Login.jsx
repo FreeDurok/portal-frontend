@@ -7,21 +7,24 @@ import {
   Button,
   Typography,
   Box,
-  Alert
+  Alert,
+  InputAdornment,
+  IconButton
 } from '@mui/material'
-import { Login as LoginIcon } from '@mui/icons-material'
+import { Login as LoginIcon, Visibility, VisibilityOff } from '@mui/icons-material'
 import useAuthStore from '../../store/authStore'
 import { authAPI } from '../../api/auth'
 
 function AdminLogin() {
   const navigate = useNavigate()
-  const { login, isAuthenticated, user } = useAuthStore()
+  const { login, isAuthenticated, user, setTempToken } = useAuthStore()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -45,24 +48,34 @@ function AdminLogin() {
     try {
       const tokenData = await authAPI.login(formData.username, formData.password)
       
-      // Save token first so it can be used in the next request
-      login(tokenData.access_token, null)
+      // Temporarily set token in store so getCurrentUser can use it
+      // Using setTempToken to avoid triggering the redirect useEffect
+      setTempToken(tokenData.access_token)
       
-      // Now fetch user data with the token in place
-      const userData = await authAPI.getCurrentUser()
-      
-      if (!userData.is_admin) {
-        setError('Accesso negato: permessi amministratore richiesti')
-        setLoading(false)
-        return
-      }
+      try {
+        // Now fetch user data with the token
+        const userData = await authAPI.getCurrentUser()
+        
+        if (!userData.is_admin) {
+          // Not admin, remove token and show error
+          useAuthStore.getState().logout()
+          setError('Credenziali non valide o accesso non autorizzato')
+          setLoading(false)
+          return
+        }
 
-      // Update with user data
-      login(tokenData.access_token, userData)
-      navigate('/admin')
+        // Update store with user data and navigate
+        login(tokenData.access_token, userData)
+        navigate('/admin')
+      } catch (userErr) {
+        // Failed to get user data, remove token
+        useAuthStore.getState().logout()
+        throw userErr
+      }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Errore durante il login')
-    } finally {
+      // Generic error message to prevent username enumeration
+      // Don't reveal if username exists or if password is wrong
+      setError('Credenziali non valide. Verifica username e password.')
       setLoading(false)
     }
   }
@@ -107,11 +120,24 @@ function AdminLogin() {
               fullWidth
               label="Password"
               name="password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={handleChange}
               margin="normal"
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      size="small"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
             <Button
               fullWidth

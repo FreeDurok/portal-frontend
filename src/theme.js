@@ -8,19 +8,61 @@ export const getTheme = (mode) => createTheme({
     primary: {
       main: mode === 'dark' ? '#FF6B35' : '#FF5722', // Vibrant Orange
       light: '#FF8A65',
+      lighter: mode === 'dark' ? '#FFE0D6' : '#FFEBEE',
       dark: '#E64A19',
       contrastText: '#FFFFFF',
     },
     secondary: {
       main: mode === 'dark' ? '#9C27B0' : '#7B1FA2', // Deep Purple
       light: '#BA68C8',
+      lighter: mode === 'dark' ? '#F3E5F5' : '#F3E5F5',
       dark: '#6A1B9A',
+      contrastText: '#FFFFFF',
+    },
+    success: {
+      main: '#4CAF50',
+      light: '#81C784',
+      lighter: mode === 'dark' ? 'rgba(76, 175, 80, 0.15)' : '#E8F5E9',
+      dark: '#388E3C',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      main: '#FF9800',
+      light: '#FFB74D',
+      lighter: mode === 'dark' ? 'rgba(255, 152, 0, 0.15)' : '#FFF3E0',
+      dark: '#F57C00',
+      contrastText: '#000000',
+    },
+    error: {
+      main: '#F44336',
+      light: '#E57373',
+      lighter: mode === 'dark' ? 'rgba(244, 67, 54, 0.15)' : '#FFEBEE',
+      dark: '#D32F2F',
+      contrastText: '#FFFFFF',
+    },
+    info: {
+      main: '#2196F3',
+      light: '#64B5F6',
+      lighter: mode === 'dark' ? 'rgba(33, 150, 243, 0.15)' : '#E3F2FD',
+      dark: '#1976D2',
       contrastText: '#FFFFFF',
     },
     accent: {
       main: mode === 'dark' ? '#FFB74D' : '#FFA726', // Warm Amber
       light: '#FFD54F',
       dark: '#F57C00',
+    },
+    grey: {
+      50: mode === 'dark' ? '#FAFAFA' : '#FAFAFA',
+      100: mode === 'dark' ? '#F5F5F5' : '#F5F5F5',
+      200: mode === 'dark' ? '#EEEEEE' : '#EEEEEE',
+      300: mode === 'dark' ? '#E0E0E0' : '#E0E0E0',
+      400: mode === 'dark' ? '#BDBDBD' : '#BDBDBD',
+      500: mode === 'dark' ? '#9E9E9E' : '#9E9E9E',
+      600: mode === 'dark' ? '#757575' : '#757575',
+      700: mode === 'dark' ? '#616161' : '#616161',
+      800: mode === 'dark' ? '#424242' : '#424242',
+      900: mode === 'dark' ? '#212121' : '#212121',
     },
     background: {
       default: mode === 'dark' ? '#121212' : '#F5F5F7',
@@ -96,8 +138,8 @@ export const getTheme = (mode) => createTheme({
           '&:hover': {
             transform: 'translateY(-4px)',
             boxShadow: mode === 'dark'
-              ? '0 8px 24px rgba(156, 39, 176, 0.3)'
-              : '0 8px 24px rgba(123, 31, 162, 0.15)',
+              ? '0 8px 24px rgba(255, 107, 53, 0.3)'
+              : '0 8px 24px rgba(255, 87, 34, 0.15)',
           },
         },
       },

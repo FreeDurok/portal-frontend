@@ -27,8 +27,14 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      useAuthStore.getState().logout()
-      window.location.href = '/admin/login'
+      // Don't redirect if we're already on the login page or trying to login
+      const isLoginPage = window.location.pathname === '/admin/login'
+      const isLoginRequest = error.config?.url?.includes('/auth/login')
+      
+      if (!isLoginPage && !isLoginRequest) {
+        useAuthStore.getState().logout()
+        window.location.href = '/admin/login'
+      }
     }
     return Promise.reject(error)
   }

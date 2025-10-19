@@ -1,9 +1,11 @@
 import { Box, Grid, Paper, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useDashboardStats } from '../../hooks/useDashboardStats'
+import { useMonitoring } from '../../hooks/useMonitoring'
 import StatCard from '../../components/dashboard/StatCard'
 import QuickActionCard from '../../components/dashboard/QuickActionCard'
 import InfoSection from '../../components/dashboard/InfoSection'
+import MonitoringCard from '../../components/monitoring/MonitoringCard'
 import { statCardsConfig, quickActionsConfig, systemNotes } from '../../config/dashboardConfig.jsx'
 
 /**
@@ -13,6 +15,7 @@ import { statCardsConfig, quickActionsConfig, systemNotes } from '../../config/d
 function AdminDashboard() {
   const navigate = useNavigate()
   const { stats } = useDashboardStats()
+  const { healthData, loading, isPolling, refetch } = useMonitoring(10000, true)
 
   const statCards = statCardsConfig(stats, navigate)
   const quickActions = quickActionsConfig(navigate)
@@ -37,6 +40,16 @@ function AdminDashboard() {
           </Grid>
         ))}
       </Grid>
+
+      {/* Monitoring Card */}
+      <Box sx={{ mb: 4 }}>
+        <MonitoringCard 
+          healthData={healthData}
+          loading={loading}
+          isPolling={isPolling}
+          onRefresh={refetch}
+        />
+      </Box>
 
       {/* Quick Actions */}
       <Paper elevation={0} sx={{ p: 3, mb: 4 }}>

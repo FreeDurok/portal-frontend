@@ -8,7 +8,7 @@ import {
   Alert
 } from '@mui/material'
 import ApplicationCard from '../components/ApplicationCard'
-import { applicationsAPI } from '../api/applications'
+import { publicAPI } from '../api/public'
 
 function Dashboard() {
   const [applications, setApplications] = useState([])
@@ -22,12 +22,13 @@ function Dashboard() {
   const loadApplications = async () => {
     try {
       setLoading(true)
-      const data = await applicationsAPI.getAll()
+      // Usa l'API pubblica per la home (non richiede autenticazione)
+      const data = await publicAPI.getApplications()
       setApplications(data)
       setError(null)
     } catch (err) {
       setError('Errore nel caricamento delle applicazioni')
-      console.error(err)
+      console.error('Error loading public applications:', err)
     } finally {
       setLoading(false)
     }

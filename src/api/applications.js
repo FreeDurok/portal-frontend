@@ -25,4 +25,20 @@ export const applicationsAPI = {
     const response = await axios.delete(`/applications/${id}`)
     return response.data
   },
+
+  uploadIcon: async (file) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await axios.post('/applications/upload-icon', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
+  },
+
+  getIconUrl: (filename) => {
+    if (!filename) return null
+    return `${axios.defaults.baseURL}/applications/icons/${filename}`
+  },
 }

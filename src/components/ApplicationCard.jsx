@@ -7,15 +7,25 @@ import {
   Avatar 
 } from '@mui/material'
 import { OpenInNew, Apps } from '@mui/icons-material'
+import { applicationsAPI } from '../api/applications'
 
 function ApplicationCard({ application }) {
   const handleClick = () => {
     window.open(application.url, '_blank', 'noopener,noreferrer')
   }
 
+  const getIconSource = () => {
+    if (application.icon_file) {
+      return applicationsAPI.getIconUrl(application.icon_file)
+    }
+    return application.icon_url || null
+  }
+
+  const iconSrc = getIconSource()
+
   return (
-    <Card>
-      <CardActionArea onClick={handleClick}>
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <CardActionArea onClick={handleClick} sx={{ flexGrow: 1 }}>
         <CardContent>
           <Box 
             sx={{ 
@@ -31,11 +41,12 @@ function ApplicationCard({ application }) {
                 width: 80, 
                 height: 80, 
                 mb: 2,
-                bgcolor: 'primary.main'
+                bgcolor: iconSrc ? 'transparent' : 'primary.main'
               }}
-              src={application.icon_url}
+              src={iconSrc}
+              variant="rounded"
             >
-              {!application.icon_url && <Apps sx={{ fontSize: 40 }} />}
+              {!iconSrc && <Apps sx={{ fontSize: 40 }} />}
             </Avatar>
             
             <Typography variant="h6" component="div" gutterBottom>

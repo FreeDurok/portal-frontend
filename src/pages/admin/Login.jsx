@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Container,
@@ -15,13 +15,20 @@ import { authAPI } from '../../api/auth'
 
 function AdminLogin() {
   const navigate = useNavigate()
-  const { login } = useAuthStore()
+  const { login, isAuthenticated, user } = useAuthStore()
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && user?.is_admin) {
+      navigate('/admin', { replace: true })
+    }
+  }, [isAuthenticated, user, navigate])
 
   const handleChange = (e) => {
     setFormData({
@@ -37,6 +44,11 @@ function AdminLogin() {
 
     try {
       const tokenData = await authAPI.login(formData.username, formData.password)
+      
+      // Save token first so it can be used in the next request
+      login(tokenData.access_token, null)
+      
+      // Now fetch user data with the token in place
       const userData = await authAPI.getCurrentUser()
       
       if (!userData.is_admin) {
@@ -45,6 +57,7 @@ function AdminLogin() {
         return
       }
 
+      // Update with user data
       login(tokenData.access_token, userData)
       navigate('/admin')
     } catch (err) {

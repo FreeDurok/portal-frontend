@@ -1,11 +1,13 @@
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
+import { AppBar, Toolbar, Typography, Button, Box, IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { Dashboard, Apps, Logout } from '@mui/icons-material'
+import { Dashboard, Apps, Logout, Brightness4, Brightness7 } from '@mui/icons-material'
 import useAuthStore from '../store/authStore'
+import { useThemeMode } from '../contexts/ThemeContext'
 
 function Navbar({ admin = false }) {
   const navigate = useNavigate()
   const { logout, user } = useAuthStore()
+  const { mode, toggleTheme } = useThemeMode()
 
   const handleLogout = () => {
     logout()
@@ -13,15 +15,21 @@ function Navbar({ admin = false }) {
   }
 
   return (
-    <AppBar position="static" elevation={2}>
+    <AppBar position="static" elevation={0} color="default">
       <Toolbar>
-        <Dashboard sx={{ mr: 2 }} />
+        <Dashboard sx={{ mr: 2, color: 'primary.main' }} />
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
           {admin ? 'Portale Applicazioni - Admin' : 'Portale Applicazioni'}
         </Typography>
         
+        <Tooltip title={mode === 'dark' ? 'Modalità chiara' : 'Modalità scura'}>
+          <IconButton onClick={toggleTheme} color="inherit" sx={{ mr: 2 }}>
+            {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+        </Tooltip>
+        
         {admin && (
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: 1 }}>
             <Button 
               color="inherit" 
               startIcon={<Dashboard />}
@@ -48,7 +56,7 @@ function Navbar({ admin = false }) {
         
         {!admin && (
           <Button 
-            color="inherit" 
+            variant="contained"
             onClick={() => navigate('/admin/login')}
           >
             Admin Login
